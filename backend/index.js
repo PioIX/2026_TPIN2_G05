@@ -1,11 +1,15 @@
 const express = require("express");
+var bodyParser = require('body-parser'); //Convierte los JSON
 const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
+const { realizarQuery } = require('./modulos/mysql');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
@@ -70,4 +74,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Disconnect");
   });
+});
+
+app.get('/', function(req, res){
+    res.status(200).send({ 
+        message: 'Funciona'
+    });
 });
