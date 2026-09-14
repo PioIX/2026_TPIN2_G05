@@ -1,15 +1,14 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Chat from "./components/chats";
+
+
 export default function Home() {
   return (
     <div>
-      <pfp/>
-      <Chat/> 
-      <Chat/>
-      <Chat/>
-      <Chat/>
-      
+      <p>ingrese su numnero de telefono</p>
+      <input type="int" placeholder="1112345678" />
+      <p>ingrese su contraseña</p>
+      <input type="text" placeholder="%€@!!pass" />
     </div>
   );
 }
