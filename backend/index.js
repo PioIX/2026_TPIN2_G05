@@ -1,3 +1,4 @@
+
 const express = require("express");
 var bodyParser = require('body-parser'); //Convierte los JSON
 const cors = require("cors");
@@ -81,3 +82,79 @@ app.get('/', function(req, res){
         message: 'Funciona'
     });
 });
+
+
+
+
+
+
+
+
+// ==================================================================================================
+
+
+app.get('/login', async function(req,res){
+  try {
+    
+    let respuesta;
+
+    respuesta = await realizarQuery(`
+      SELECT * 
+      FROM Usuarios 
+      WHERE correo = "${req.query.correo}" AND contra="${req.query.contra}"
+    `)
+  
+  
+    res.send(respuesta);
+
+  } catch (error) {
+    console.log(error.message);
+  
+
+  }
+})
+
+app.post('/registrar', async function(req,res) {
+  try {
+
+
+    let existe = await realizarQuery(`
+      SELECT * 
+      FROM Usuarios 
+      WHERE correo = "${req.body.correo}" OR usuario = "${req.body.usuario}"
+    `);
+
+
+
+    if (existe.length > 0){
+
+      res.send({ ok: false })
+
+    } else{
+      
+      realizarQuery(`
+      INSERT INTO Animales (usuario, correo, contra, foto) 
+      VALUES ("${req.body.usuario}", 
+        "${req.body.correo}", 
+        "${req.body.contra}", 
+        "${req.body.foto}");
+      `)
+
+
+      res.send({ ok: true })
+
+    }
+
+
+  } catch (error) {
+    
+    console.log(error.message);
+      
+      
+  }
+})
+
+
+
+
+
