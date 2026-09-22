@@ -244,11 +244,12 @@ app.post('/crearChat', async function(req, res) {
     console.log(ids)
 
     await realizarQuery(`
-      INSERT INTO Chats (nombre, descripcion, foto)
+      INSERT INTO Chats (nombre, descripcion, foto, global)
       VALUES (
         "${req.body.nombre}",
         "${req.body.descripcion}",
-        "${req.body.foto}"
+        "${req.body.foto}",
+        ${req.body.global}
       )
     `);
     

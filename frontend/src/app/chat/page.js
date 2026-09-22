@@ -1,7 +1,7 @@
 "use client"
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from 'react';
-import { useSocket } from "@/hooks/useSocket";
+import { useSocket } from "../hooks/useSocket";
 
 
 import Message from "../components/Message";
@@ -13,6 +13,15 @@ export default function chatPage() {
     const searchParams = useSearchParams();
     const id_user = searchParams.get("id_user")
     const id_chat = searchParams.get("id_chat")
+
+
+    if (searchParams.get("global") == 1) {
+        const esGlobal = true
+    }else{
+        const esGlobal = false
+    }
+
+    
     const { socket } = useSocket();
 
 
@@ -33,12 +42,6 @@ export default function chatPage() {
 
 
 
-    // function updateCorreos() {
-    //     const copia = [];
-    //     correos.forEach((c) => copia.push(c));
-    //     copia.push(correo);
-    //     setCorreos(copia);
-    // }
 
 
     useEffect(() => {
@@ -121,7 +124,8 @@ export default function chatPage() {
                     contenido: mensaje, 
                     id_user: id_user,
                     foto: usuario.foto,
-                    usuario: usuario.usuario
+                    usuario: usuario.usuario,
+
                 })
             }else{
                 alert("Error")
