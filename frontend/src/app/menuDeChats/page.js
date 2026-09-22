@@ -20,6 +20,7 @@ export default function chatsPage() {
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [imagen, setImagen] = useState("https://i.pinimg.com/474x/3c/13/98/3c139858ade16fe6bf2b3c8f7f2cd0fd.jpg?nii=t");
+    const [global, setGlobal] = useState(false);
 
 
 
@@ -41,7 +42,10 @@ export default function chatsPage() {
     const updateFoto = (event) => {
         setImagen(event.target.value)
     }
-
+    const updateGobal = (event) => {
+        setGlobal(event.target.checked)
+    }
+    
 
     function updateCorreos() {
         const copia = [];
@@ -49,7 +53,6 @@ export default function chatsPage() {
         copia.push(correo);
         setCorreos(copia);
     }
-
 
     useEffect(() => {
         
@@ -85,7 +88,8 @@ export default function chatsPage() {
             nombre: nombre,
             descripcion: descripcion,
             foto: imagen,
-            correos: correos
+            correos: correos,
+            global: global
         }
         fetch('http://localhost:4000/crearChat', {
             method: 'POST',
@@ -134,7 +138,12 @@ export default function chatsPage() {
                     {renderizarCorreos()}
 
                 </ul>
-                <Input tipo="text" funcion={updateCorreo} text="Correo"></Input>          
+                <Input tipo="text" funcion={updateCorreo} text="Correo"></Input>
+                <div>
+                    <p>Global: </p>
+                    <Input tipo="checkbox" funcion={updateGobal} text=""></Input>    
+                </div>
+
                 <Boton funcion={updateCorreos} text="Añadir"></Boton>  
                 <Boton funcion={crearChat} text="Crear"></Boton>  
             </Popup>

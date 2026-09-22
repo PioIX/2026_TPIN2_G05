@@ -19,7 +19,10 @@ export default function ChatList({chats, id_user}) {
             foto={element.foto}
             descripcion={element.descripcion}
             id_chat={element.id_chat}
+            global={element.global}
             id_user={id_user}
+            
+            
              
             ></ChatItem>
         );
@@ -34,7 +37,7 @@ export default function ChatList({chats, id_user}) {
             {chats.length!=0? 
             items : 
             <p>No hay chats</p>
-}
+            }
         </>
         
     );
