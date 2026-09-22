@@ -1,6 +1,5 @@
 
 const express = require("express");
-var bodyParser = require('body-parser'); //Convierte los JSON
 const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
@@ -9,10 +8,10 @@ const { realizarQuery } = require('./modulos/mysql');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-app.use(cors());
+
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cors());
 
 const sessionMiddleware = session({
   secret: "supersarasa",
@@ -63,7 +62,7 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (data) => {
     io.to(req.session.room).emit("newMessage", {
       room: req.session.room,
-      message: data.message,
+      message: data,
     });
   });
 
@@ -89,9 +88,41 @@ app.get('/', function(req, res){
 
 
 
-
 // ==================================================================================================
 
+
+
+
+app.get('/usuarios', async function(req,res){
+try {
+
+  let respuesta;
+
+
+  if (req.query.id_user != undefined) {
+
+    respuesta = await realizarQuery(`
+      SELECT *
+      FROM Usuarios 
+      WHERE id_user=${req.query.id_user}
+    `)
+
+  } else {
+
+    respuesta = await realizarQuery(`
+      SELECT * 
+      FROM Usuarios
+    `);
+
+  }    
+
+  res.send(respuesta[0]);
+
+} catch (error) {
+  console.log(error.message);
+    
+}
+})
 
 app.get('/login', async function(req,res){
   try {
@@ -104,7 +135,7 @@ app.get('/login', async function(req,res){
       WHERE correo = "${req.query.correo}" AND contra="${req.query.contra}"
     `)
   
-  
+
     res.send(respuesta);
 
   } catch (error) {
@@ -123,25 +154,23 @@ app.post('/registrar', async function(req,res) {
       FROM Usuarios 
       WHERE correo = "${req.body.correo}" OR usuario = "${req.body.usuario}"
     `);
-
+ 
 
 
     if (existe.length > 0){
-
-      res.send({ ok: false })
+      res.send({ok: false});
 
     } else{
       
-      realizarQuery(`
-      INSERT INTO Animales (usuario, correo, contra, foto) 
+      await realizarQuery(`
+      INSERT INTO Usuarios (usuario, correo, contra, foto) 
       VALUES ("${req.body.usuario}", 
         "${req.body.correo}", 
         "${req.body.contra}", 
         "${req.body.foto}");
       `)
-
-
-      res.send({ ok: true })
+      
+      res.send({ok: true});
 
     }
 
@@ -157,4 +186,146 @@ app.post('/registrar', async function(req,res) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+app.get('/chats', async function(req,res){
+  try {
+    
+    let respuesta;
+
+    respuesta = await realizarQuery(`
+      SELECT Chats.*
+      FROM Chats
+      INNER JOIN ChatsPorUsuarios ON Chats.id_chat = ChatsPorUsuarios.id_chat
+      WHERE ChatsPorUsuarios.id_user = ${req.query.id_user};
+    `)
+      
+
+    console.log(respuesta)
+    res.send(respuesta);
+
+  } catch (error) {
+    console.log(error.message);
+  
+
+  }
+})
+
+app.post('/crearChat', async function(req, res) {
+  try {
+
+    let ids = []
+
+    for (let i = 0; i < req.body.correos.length; i++) {
+      const element = req.body.correos[i];
+      
+      let existe = await realizarQuery(`
+        SELECT id_user 
+        FROM Usuarios 
+        WHERE correo = "${element}"
+      `);
+      if(existe.length == 0){
+        return  res.send({ ok: false });
+      }else{
+        ids.push(existe[0].id_user)
+      }
+
+    }
+
+    console.log(ids)
+
+    await realizarQuery(`
+      INSERT INTO Chats (nombre, descripcion, foto)
+      VALUES (
+        "${req.body.nombre}",
+        "${req.body.descripcion}",
+        "${req.body.foto}"
+      )
+    `);
+    
+    let chat = await realizarQuery(`
+      SELECT * 
+      FROM Chats 
+      WHERE nombre = "${req.body.nombre}"
+    `);
+
+    for (let id_user of ids) {
+
+      await realizarQuery(`
+          INSERT INTO ChatsPorUsuarios (id_chat, id_user)
+          VALUES (${chat[0].id_chat}, ${id_user})
+      `);
+
+    }
+    console.log(chat[0])
+    
+    res.send({ 
+      ok: true, 
+      chat: chat[0] });
+
+  } catch (error) {
+    console.log(error.message);
+      
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/mensajes', async function(req, res) {
+    try {
+
+      let respuesta = await realizarQuery(`
+        SELECT Mensajes.contenido, Usuarios.foto, Usuarios.usuario, Mensajes.id_user
+        FROM Mensajes
+        INNER JOIN Usuarios ON Mensajes.id_user = Usuarios.id_user
+        WHERE Mensajes.id_chat = ${req.query.id_chat};
+      `);
+
+      res.send(respuesta);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+
+app.post('/crearMensaje', async function(req, res) {
+  try {
+
+    await realizarQuery(`
+      INSERT INTO Mensajes (contenido, id_chat, id_user)
+      VALUES (
+        "${req.body.contenido}",
+        "${req.body.id_chat}",
+        "${req.body.id_user}"
+      )
+    `);
+
+    
+    res.send({ok: true});
+
+  } catch (error) {
+    console.log(error.message);
+      
+  }
+});
 
