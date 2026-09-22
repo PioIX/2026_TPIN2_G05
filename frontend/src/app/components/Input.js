@@ -1,10 +1,10 @@
 
 
-export default function Boton({funcion, text}) {
+export default function Input({funcion, text, tipo}) {
 
 
     return(
-        <button onClick={funcion}>{text}</button>
+        <input type={tipo} onChange={funcion} placeholder={text}></input>
 
     );
 }
