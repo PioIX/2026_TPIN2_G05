@@ -135,7 +135,7 @@ app.get('/login', async function(req,res){
       WHERE correo = "${req.query.correo}" AND contra="${req.query.contra}"
     `)
   
-
+    
     res.send(respuesta);
 
   } catch (error) {
@@ -300,7 +300,7 @@ app.get('/mensajes', async function(req, res) {
         INNER JOIN Usuarios ON Mensajes.id_user = Usuarios.id_user
         WHERE Mensajes.id_chat = ${req.query.id_chat};
       `);
-
+        console.log(respuesta)
       res.send(respuesta);
 
     } catch (error) {

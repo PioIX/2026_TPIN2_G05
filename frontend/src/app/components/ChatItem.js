@@ -10,7 +10,7 @@ export default function ChatItem({nombre, foto, descripcion, id_chat, id_user, g
 
     function irAlChat(){
 
-        router.push(`/chat?id_chat=${id_chat}&&id_chat=${id_user}&&global=${global}`)
+        router.push(`/chat?id_chat=${id_chat}&&id_user=${id_user}&&global=${global}`)
 
     }
 

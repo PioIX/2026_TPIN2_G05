@@ -144,7 +144,7 @@ export default function chatsPage() {
                     <Input tipo="checkbox" funcion={updateGobal} text=""></Input>    
                 </div>
 
-                <Boton funcion={updateCorreos} text="Añadir"></Boton>  
+                <Boton funcion={updateCorreos} text="Añadir"></Boton>
                 <Boton funcion={crearChat} text="Crear"></Boton>  
             </Popup>
         </>

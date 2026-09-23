@@ -45,7 +45,9 @@ export default function Home() {
 
     fetch(`http://localhost:4000/login?correo=${correo}&contra=${contra}`)
       .then(response => response.json())
-      .then(data => router.push(`/menuDeChats?id_user=${data[0].id_user}&&correo=${data[0].correo}`));
+      .then(data => {
+        router.push(`/menuDeChats?id_user=${data[0].id_user}&&correo=${data[0].correo}`)
+      });
 
   }
 
