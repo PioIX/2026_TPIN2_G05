@@ -134,9 +134,20 @@ app.get('/login', async function(req,res){
       FROM Usuarios 
       WHERE correo = "${req.query.correo}" AND contra="${req.query.contra}"
     `)
-  
+    console.log(respuesta)
+    if (respuesta.length>0) {
+      
+      res.send({
+        ok: true,
+        respuesta: respuesta
+      });
+    }else{
+      res.send({
+        ok: false,
+        respuesta: respuesta
+      });
+    }
     
-    res.send(respuesta);
 
   } catch (error) {
     console.log(error.message);
