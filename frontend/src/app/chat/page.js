@@ -14,11 +14,9 @@ export default function chatPage() {
     const id_user = searchParams.get("id_user")
     const id_chat = searchParams.get("id_chat")
 
-
+    let esGlobal
     if (searchParams.get("global") == 1) {
-        const esGlobal = true
-    }else{
-        const esGlobal = false
+        esGlobal = true
     }
 
     
@@ -79,7 +77,11 @@ export default function chatPage() {
     useEffect(() => {
         
         if(socket){
-            socket.emit("joinRoom", { room: id_chat })
+
+            if(!esGlobal){
+                socket.emit("joinRoom", { room: id_chat })
+
+            }
 
         }
 
@@ -161,7 +163,7 @@ export default function chatPage() {
                 {renderizarMsg()}
 
             </div>
-
+            
             <Input tipo="text" funcion={updateMsg} text="Mensaje"></Input>          
             <Boton funcion={enviar} text="Enviar"></Boton>  
         
