@@ -14,7 +14,7 @@ export default function chatPage() {
     const id_user = searchParams.get("id_user")
     const id_chat = searchParams.get("id_chat")
 
-    let esGlobal
+    let esGlobal = false
     if (searchParams.get("global") == 1) {
         esGlobal = true
     }
@@ -40,31 +40,24 @@ export default function chatPage() {
     useEffect(() => {
         
         fetch(`http://localhost:4000/usuarios?id_user=${id_user}`)
-            .then(response => response.json())
-            .then(data =>{ 
-                
-                setUsuario(data)
-        
+        .then(response => response.json())
+        .then(data =>{ 
+            
+            setUsuario(data)
+    
 
-                console.log(data)
-            })  
-
-
-
-
-
+            console.log(data)
+        })  
 
 
         fetch(`http://localhost:4000/mensajes?id_chat=${id_chat}`)
-            .then(response => response.json())
-            .then(data =>{ 
-                
-                setMensajes(data)
-                console.log(data)
-            })
+        .then(response => response.json())
+        .then(data =>{ 
             
-
-
+            setMensajes(data)
+            console.log(data)
+        })
+            
     }, []);
 
 
@@ -88,10 +81,21 @@ export default function chatPage() {
     useEffect(() => {
         
         if(socket){
-            socket.on("newMessage", (data) => {
-                setMensajes((conversacion) => [...conversacion, data.message]);
-            });
 
+
+
+            if(!esGlobal){
+                
+                socket.on("newMessage", (data) => {
+                    setMensajes((conversacion) => [...conversacion, data.message]);
+                });
+            }else{
+
+                socket.on("pingAll", (data) => {
+                    setMensajes((conversacion) => [...conversacion, data.message]);
+                
+                });
+            }
         }
 
     }, [socket]);
@@ -117,13 +121,26 @@ export default function chatPage() {
         .then(data => {
 
             if (data.ok) {
-                socket.emit("sendMessage", { 
-                    contenido: mensaje, 
-                    id_user: id_user,
-                    foto: usuario.foto,
-                    usuario: usuario.usuario,
+                if(!esGlobal){
 
-                })
+                    socket.emit("sendMessage", { 
+                        contenido: mensaje, 
+                        id_user: id_user,
+                        foto: usuario.foto,
+                        usuario: usuario.usuario,
+    
+                    })
+                }else{
+                    socket.emit("pingAll", { 
+                        contenido: mensaje, 
+                        id_user: id_user,
+                        foto: usuario.foto,
+                        usuario: usuario.usuario,
+    
+                    });
+
+                }
+
             }else{
                 alert("Error")
 
@@ -135,6 +152,7 @@ export default function chatPage() {
  
 
     function renderizarMsg() {
+        
         const lista = mensajes.map((data, indice) => (
             <Message
             key={indice}
@@ -145,6 +163,8 @@ export default function chatPage() {
             id_user_Logeado = {id_user}
             ></Message>
         ))
+
+
         return lista    
 
 
