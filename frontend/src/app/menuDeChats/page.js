@@ -14,28 +14,16 @@ export default function chatsPage() {
 
 
     const [chats, setChats] = useState([]);
-    const [correo, setCorreo] = useState("");
-    const [correos, setCorreos] = useState([correo_user]);
+
     const [mostrarPopup, setMostrarPopup] = useState(false);
+    
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [imagen, setImagen] = useState("https://i.pinimg.com/474x/3c/13/98/3c139858ade16fe6bf2b3c8f7f2cd0fd.jpg?nii=t");
     
-
-
-
-
-
-
+    const [correo, setCorreo] = useState("");
+    const [correos, setCorreos] = useState([correo_user]);
     
-
-    function updateCorreos() {
-        const copia = [];
-        correos.forEach((c) => copia.push(c));
-        copia.push(correo);
-        setCorreos(copia);
-    }
-
     useEffect(() => {
         
   
@@ -52,6 +40,10 @@ export default function chatsPage() {
 
     }, [ ]);
 
+
+
+    
+
     function renderizarCorreos() {
         const lista = correos.map((data, indice) => (
             <li key={indice}>
@@ -63,6 +55,15 @@ export default function chatsPage() {
 
     }
 
+    function updateCorreos() {
+        const copia = [];
+        correos.forEach((c) => copia.push(c));
+        copia.push(correo);
+        setCorreos(copia);
+    }
+
+
+
 
 
     function crearChat() {
@@ -73,6 +74,7 @@ export default function chatsPage() {
             correos: correos,
             global: false
         }
+
         fetch('http://localhost:4000/crearChat', {
             method: 'POST',
             headers: {
@@ -115,11 +117,14 @@ export default function chatsPage() {
                 <Input tipo="text" funcion={setImagen} text="Foto"></Input>          
 
                 <img src={imagen}></img>
-                <h3>Integrantas:</h3>
-                <ul>
-                    {renderizarCorreos()}
+                <div>
 
-                </ul>
+                    <h3>Integrantas:</h3>
+                    <ul>
+                        {renderizarCorreos()}
+
+                    </ul>
+                </div>
                 <Input tipo="text" funcion={setCorreo} text="Correo"></Input>
 
 

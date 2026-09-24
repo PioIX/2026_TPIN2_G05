@@ -55,11 +55,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("pingAll", (data) => {
-    console.log("PING ALL:", data);
+    console.log("PING ALL: ", data);
     io.emit("pingAll", { event: "Ping to all", message: data });
   });
 
   socket.on("sendMessage", (data) => {
+    console("SALA: ", data)
     io.to(req.session.room).emit("newMessage", {
       room: req.session.room,
       message: data,
@@ -182,16 +183,19 @@ app.post('/registrar', async function(req,res) {
       `)
         
       let newId = await realizarQuery(`
-        SELECT max(id_user) 
+        SELECT max(id_user) AS "id_user"
         FROM Usuarios 
       `);
-      
+      console.log(newId)
       let globalId = await realizarQuery(`
-        SELECT id_user 
+        SELECT id_chat 
         FROM Chats
         WHERE global= true  
       `);
-      
+      await realizarQuery(`
+        INSERT INTO ChatsPorUsuarios (id_chat, id_user)
+        VALUES (${globalId[0].id_chat}, ${newId[0].id_user})
+      `);
 
 
       res.send({ok: true});
@@ -286,8 +290,8 @@ app.post('/crearChat', async function(req, res) {
     for (let id_user of ids) {
 
       await realizarQuery(`
-          INSERT INTO ChatsPorUsuarios (id_chat, id_user)
-          VALUES (${chat[0].id_chat}, ${id_user})
+        INSERT INTO ChatsPorUsuarios (id_chat, id_user)
+        VALUES (${chat[0].id_chat}, ${id_user})
       `);
 
     }

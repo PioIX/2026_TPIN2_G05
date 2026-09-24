@@ -8,7 +8,7 @@ export default function Message({contenido, foto, usuario, id_user, id_user_Loge
 
     return(
         <>
-
+            
             {id_user==id_user_Logeado?
                 <div className="enviado">
                     <img src={foto}></img>
