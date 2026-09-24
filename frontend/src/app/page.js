@@ -10,7 +10,7 @@ export default function Home() {
   const [usuario, setUsuario] = useState("");
   const [contra, setContra] = useState("");
   const [foto, setFoto] = useState("https://i.pinimg.com/474x/3c/13/98/3c139858ade16fe6bf2b3c8f7f2cd0fd.jpg?nii=t");
-  const [logeado, setLogeado] = useState("");
+ 
 
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
 
@@ -19,23 +19,9 @@ export default function Home() {
 
 
 
-  const updateCorreo = (event) => {
-    setCorreo(event.target.value)
 
-  };
-  const updateUser = (event) => {
-    setUsuario(event.target.value)
 
-  };
-  const updateContra = (event) => {
-    setContra(event.target.value)
 
-  };
-
-  const updateFoto = (event) => {
-    setFoto(event.target.value)
-
-  };
 
 
 
@@ -105,8 +91,8 @@ export default function Home() {
 
   return (
     <div>
-      <Input tipo="text" funcion={updateCorreo} text="Ingrese su correo"></Input>
-      <Input tipo="password" funcion={updateContra} text="Ingrese su contraseña"></Input>
+      <Input tipo="text" funcion={setCorreo} text="Ingrese su correo"></Input>
+      <Input tipo="password" funcion={setContra} text="Ingrese su contraseña"></Input>
 
       <Boton funcion={logear} text="Iniciar sesion"></Boton>
 
@@ -121,8 +107,8 @@ export default function Home() {
 
           <div>
 
-            <Input tipo="text" funcion={updateUser} text="Ingrese su usuario"></Input>          
-            <Input tipo="text" funcion={updateFoto} text="Url de tu imagen"></Input>          
+            <Input tipo="text" funcion={setUsuario} text="Ingrese su usuario"></Input>          
+            <Input tipo="text" funcion={setFoto} text="Url de tu imagen"></Input>          
             <img src={foto}></img>
             <Boton funcion={registrar} text="Registrarse"></Boton>  
 

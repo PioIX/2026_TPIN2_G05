@@ -20,31 +20,13 @@ export default function chatsPage() {
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [imagen, setImagen] = useState("https://i.pinimg.com/474x/3c/13/98/3c139858ade16fe6bf2b3c8f7f2cd0fd.jpg?nii=t");
-    const [global, setGlobal] = useState(false);
+    
 
 
 
 
-    const updateCorreo = (event) => {
-        setCorreo(event.target.value)
-        
 
-    };
-    const updateNombre = (event) => {
-        setNombre(event.target.value)
 
-    };
-    const updateDescripcion = (event) => {
-        setDescripcion(event.target.value)
-
-    };
-
-    const updateFoto = (event) => {
-        setImagen(event.target.value)
-    }
-    const updateGobal = (event) => {
-        setGlobal(event.target.checked)
-    }
     
 
     function updateCorreos() {
@@ -89,7 +71,7 @@ export default function chatsPage() {
             descripcion: descripcion,
             foto: imagen,
             correos: correos,
-            global: global
+            global: false
         }
         fetch('http://localhost:4000/crearChat', {
             method: 'POST',
@@ -128,9 +110,9 @@ export default function chatsPage() {
             modal
             >
                 
-                <Input tipo="text" funcion={updateNombre} text="Nombre"></Input>          
-                <Input tipo="text" funcion={updateDescripcion} text="Descripcion"></Input>          
-                <Input tipo="text" funcion={updateFoto} text="Foto"></Input>          
+                <Input tipo="text" funcion={setNombre} text="Nombre"></Input>          
+                <Input tipo="text" funcion={setDescripcion} text="Descripcion"></Input>          
+                <Input tipo="text" funcion={setImagen} text="Foto"></Input>          
 
                 <img src={imagen}></img>
                 <h3>Integrantas:</h3>
@@ -138,11 +120,8 @@ export default function chatsPage() {
                     {renderizarCorreos()}
 
                 </ul>
-                <Input tipo="text" funcion={updateCorreo} text="Correo"></Input>
-                <div>
-                    <p>Global: </p>
-                    <Input tipo="checkbox" funcion={updateGobal} text=""></Input>    
-                </div>
+                <Input tipo="text" funcion={setCorreo} text="Correo"></Input>
+
 
                 <Boton funcion={updateCorreos} text="Añadir"></Boton>
                 <Boton funcion={crearChat} text="Crear"></Boton>  

@@ -180,7 +180,20 @@ app.post('/registrar', async function(req,res) {
         "${req.body.contra}", 
         "${req.body.foto}");
       `)
+        
+      let newId = await realizarQuery(`
+        SELECT max(id_user) 
+        FROM Usuarios 
+      `);
       
+      let globalId = await realizarQuery(`
+        SELECT id_user 
+        FROM Chats
+        WHERE global= true  
+      `);
+      
+
+
       res.send({ok: true});
 
     }

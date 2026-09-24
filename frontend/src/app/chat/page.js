@@ -32,11 +32,6 @@ export default function chatPage() {
 
 
 
-    const updateMsg = (event) => {
-      setMensaje(event.target.value)
-        
-
-    };
 
 
 
@@ -164,7 +159,7 @@ export default function chatPage() {
 
             </div>
             
-            <Input tipo="text" funcion={updateMsg} text="Mensaje"></Input>          
+            <Input tipo="text" funcion={setMensaje} text="Mensaje"></Input>          
             <Boton funcion={enviar} text="Enviar"></Boton>  
         
  
