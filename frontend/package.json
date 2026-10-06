@@ -2,13 +2,11 @@
   "name": "mi-proyecto-nextjs",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "dev:a": "cross-env NEXT_DIST_DIR=.next-a PORT=3000 next dev",
-    "dev:b": "cross-env NEXT_DIST_DIR=.next-b PORT=3001 next dev"
+"scripts": {
+  "dev": "next dev --webpack",
+  "build": "next build --webpack",
+  "start": "next start",
+  "lint": "next lint"
   },
   "dependencies": {
     "next": "16.3.4",
