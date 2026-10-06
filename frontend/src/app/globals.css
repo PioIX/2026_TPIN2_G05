@@ -1,10 +1,16 @@
-/* ===== Paleta de colores ===== */
 :root {
-  --oscuro: #444439;
-  --medio: #8b8669;
-  --claro: #decd9c;
-  --amarillo: #e5e37d;
-  --verde: #d4fe62;
+  color-scheme: dark;
+  --negro: #060806;
+  --fondo: #0b0e0a;
+  --panel: #12160f;
+  --panel-2: #1a2015;
+  --borde: #2b3423;
+  --acento: #7c9a5e;
+  --acento-oscuro: #46612f;
+  --hueso: #d8d3c2;
+  --bruma: #8f967f;
+  --vino: #7e2b34;
+  --vino-claro: #c08087;
 }
 
 * {
@@ -16,23 +22,46 @@
 html,
 body {
   min-height: 100vh;
-  background-color: var(--claro);
-  color: var(--oscuro);
+  background-color: var(--fondo);
+  color: var(--hueso);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
 
+::selection {
+  background-color: var(--acento-oscuro);
+  color: var(--hueso);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--fondo);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--borde);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--acento-oscuro);
+}
+
 h1, h2, h3, h4 {
-  color: var(--oscuro);
-  font-weight: 700;
+  color: var(--hueso);
+  font-family: var(--font-cinzel), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 
 p, span, li {
-  color: var(--oscuro);
+  color: var(--hueso);
 }
 
-/* ===== Formularios ===== */
 form,
 .container {
   display: flex;
@@ -43,64 +72,73 @@ form,
   margin: 0 auto;
 }
 
+.container h2 {
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
 input {
   width: 100%;
-  padding: 12px 16px;
-  border: 2px solid var(--medio);
-  border-radius: 999px;
-  background-color: #fffef5;
-  color: var(--oscuro);
+  padding: 12px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  background-color: var(--negro);
+  color: var(--hueso);
+  font-family: inherit;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 input::placeholder {
-  color: var(--medio);
-  opacity: 1;
+  color: var(--bruma);
+  opacity: 0.75;
 }
 
 input:focus {
-  border-color: var(--oscuro);
-  box-shadow: 0 0 0 3px rgba(212, 254, 98, 0.5);
+  border-color: var(--acento);
+  box-shadow: 0 0 0 1px var(--acento), 0 0 16px rgba(124, 154, 94, 0.15);
 }
 
-/* ===== Botones circulares con sombra ===== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--hueso);
+  -webkit-box-shadow: 0 0 0 100px var(--negro) inset;
+  border-color: var(--borde);
+  caret-color: var(--hueso);
+}
+
 button {
   cursor: pointer;
-  border: none;
-  font-family: inherit;
-  background-color: var(--verde);
-  color: var(--oscuro);
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 50%;
-  min-width: 70px;
-  height: 70px;
-  padding: 8px;
-  box-shadow: 0 4px 10px rgba(68, 68, 57, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease,
-    background-color 0.15s ease;
+  border: 1px solid var(--acento-oscuro);
+  border-radius: 4px;
+  background-color: var(--panel);
+  color: var(--hueso);
+  font-family: var(--font-cinzel), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  padding: 12px 22px;
+  min-height: 46px;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 button:hover {
-  background-color: var(--amarillo);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(68, 68, 57, 0.4);
+  background-color: var(--acento-oscuro);
+  border-color: var(--acento);
 }
 
 button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(68, 68, 57, 0.35);
+  transform: translateY(1px);
 }
 
-/* ===== Imagenes (avatares / previsualizaciones) =====
-   Las imagenes que ingresa el usuario se ajustan solas a un tamanho razonable */
 img {
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid var(--oscuro);
-  background-color: var(--claro);
+  border: 1px solid var(--borde);
+  background-color: var(--panel);
 }
 
 .avatar,
@@ -108,59 +146,71 @@ img {
 .enviado img,
 .recibido img,
 .recivido img {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   flex-shrink: 0;
 }
 
 .preview {
   width: 120px;
   height: 120px;
+  margin: 0 auto;
+  border-color: var(--acento-oscuro);
 }
 
-/* ===== Lista de chats ===== */
 .chat {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: min(92vw, 560px);
-  margin: 12px auto;
-  padding: 12px 18px;
-  background-color: var(--amarillo);
-  border-radius: 24px;
-  box-shadow: 0 4px 10px rgba(68, 68, 57, 0.3);
+  margin: 10px auto;
+  padding: 14px 18px;
+  background-color: var(--panel);
+  border: 1px solid var(--borde);
+  border-left: 2px solid var(--acento-oscuro);
+  border-radius: 6px;
+  box-shadow: none;
   text-align: left;
-  min-width: unset;
+  min-width: 0;
   height: auto;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  letter-spacing: normal;
 }
 
 .chat:hover {
-  background-color: var(--verde);
+  background-color: var(--panel-2);
+  border-color: var(--acento-oscuro);
+  border-left-color: var(--acento);
 }
 
 .chatPre {
   display: flex;
   flex-direction: column;
-  padding-left: 4px;
+  gap: 2px;
+  min-width: 0;
 }
 
 .chatPre h3 {
-  font-size: 1.05rem;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
 }
 
 .chatPre p {
-  font-size: 0.9rem;
-  color: var(--oscuro);
-  opacity: 0.85;
+  font-size: 0.88rem;
+  color: var(--bruma);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* ===== Mensajes ===== */
 .mensajes {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 24px;
+  padding: 24px 16px;
   max-width: 720px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -170,35 +220,47 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: 75%;
+  max-width: 78%;
   padding: 10px 14px;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px rgba(68, 68, 57, 0.25);
+  border-radius: 10px;
+  border: 1px solid var(--borde);
   word-break: break-word;
 }
 
 .enviado {
   align-self: flex-end;
-  background-color: var(--verde);
+  background-color: #1b2715;
+  border-color: var(--acento-oscuro);
 }
 
 .recibido,
 .recivido {
   align-self: flex-start;
-  background-color: #fffef5;
-  border: 1px solid var(--medio);
+  background-color: var(--panel);
 }
 
-/* ===== Barra de entrada del chat ===== */
+.enviado p,
+.recibido p,
+.recivido p {
+  font-size: 0.95rem;
+}
+
+.enviado strong,
+.recibido strong,
+.recivido strong {
+  color: var(--acento);
+  font-weight: 600;
+}
+
 .barraEntrada {
   position: sticky;
   bottom: 0;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 20px;
-  background-color: var(--claro);
-  border-top: 2px solid var(--medio);
+  padding: 14px 16px;
+  background-color: var(--panel);
+  border-top: 1px solid var(--borde);
   max-width: 720px;
   margin: 0 auto;
   width: 100%;
@@ -208,22 +270,26 @@ img {
   flex: 1;
 }
 
-/* ===== Popup ===== */
+.barraEntrada button {
+  flex-shrink: 0;
+  padding: 12px 18px;
+}
+
 .popup-content {
-  background: #fffef5;
-  border: 2px solid var(--oscuro);
-  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--acento-oscuro);
+  border-radius: 6px;
   padding: 24px;
   width: min(90vw, 460px);
   margin: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 10px 30px rgba(68, 68, 57, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .popup-overlay {
-  background: rgba(68, 68, 57, 0.55);
+  background: rgba(4, 6, 4, 0.75);
 }
 
 .popup-content ul {
@@ -231,17 +297,21 @@ img {
   padding-left: 4px;
 }
 
-/* ===== Enlaces y utilidades ===== */
 a {
-  color: var(--oscuro);
+  color: var(--acento);
   font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--hueso);
 }
 
 .error {
-  color: #7a1f1f;
-  background-color: #ffd9d0;
-  border: 1px solid #7a1f1f;
-  border-radius: 10px;
+  color: var(--vino-claro);
+  background-color: rgba(126, 43, 52, 0.15);
+  border: 1px solid var(--vino);
+  border-radius: 4px;
   padding: 10px 14px;
   font-weight: 600;
 }

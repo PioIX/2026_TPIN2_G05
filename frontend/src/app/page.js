@@ -16,7 +16,7 @@ export default function Home() {
 
   const router = useRouter();
 
-  
+
 
   function logear() {
 
@@ -29,7 +29,7 @@ export default function Home() {
       if(data.ok){
 
         router.push(`/menuDeChats?id_user=${data.respuesta[0].id_user}&&correo=${data.respuesta[0].correo}`)
-        
+
       }else{
         alert("El usuario no existe")
 
@@ -51,11 +51,11 @@ export default function Home() {
     const user ={
       usuario: usuario,
       correo: correo,
-      contra: contra, 
+      contra: contra,
       foto: foto
     }
 
-    
+
     fetch('http://localhost:4000/registrar', {
       method: 'POST',
       headers: {
@@ -67,12 +67,12 @@ export default function Home() {
     .then(data => {
 
       if(!data.ok){
-        
+
         alert("El usuario ya existe")
 
       }else{
         logear()
-        
+
       }
 
     });
@@ -87,7 +87,7 @@ export default function Home() {
 
   function mostrar(){
     setMostrarRegistro(true)
-    
+
   }
 
 
@@ -96,8 +96,8 @@ export default function Home() {
   return (
     <div className="container">
       <h2>Bienvenido</h2>
-      <Input tipo="text" funcion={setCorreo} text="Ingrese su correo"></Input>
-      <Input tipo="password" funcion={setContra} text="Ingrese su contraseña"></Input>
+      <Input tipo="text" funcion={setCorreo} valor={correo} text="Ingrese su correo"></Input>
+      <Input tipo="password" funcion={setContra} valor={contra} text="Ingrese su contraseña"></Input>
 
       <Boton funcion={logear} text="Iniciar sesion"></Boton>
 
@@ -105,17 +105,17 @@ export default function Home() {
 
         {!mostrarRegistro &&
           <Boton funcion={mostrar} text="Crear cuenta"></Boton>
-          
+
         }
 
         {mostrarRegistro &&
 
           <div className="container">
 
-            <Input tipo="text" funcion={setUsuario} text="Ingrese su usuario"></Input>          
-            <Input tipo="text" funcion={setFoto} text="Url de tu imagen"></Input>          
+            <Input tipo="text" funcion={setUsuario} valor={usuario} text="Ingrese su usuario"></Input>
+            <Input tipo="text" funcion={setFoto} valor={foto} text="Url de tu imagen"></Input>
             {fotoValida && <img className="preview" src={foto} alt="Vista previa de tu imagen"></img>}
-            <Boton funcion={registrar} text="Registrarse"></Boton>  
+            <Boton funcion={registrar} text="Registrarse"></Boton>
 
           </div>
         }
@@ -125,4 +125,3 @@ export default function Home() {
     </div>
   );
 }
-          
